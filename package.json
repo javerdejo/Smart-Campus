@@ -1,0 +1,21 @@
+{
+  "name": "SoundStation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon public/app.js"
+  },
+  "keywords": [],
+  "author": "NEO",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "method-override": "^2.3.7",
+    "mysql": "^2.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
