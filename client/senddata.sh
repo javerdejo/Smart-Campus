@@ -6,9 +6,9 @@ SOUND=${1}
 BLUETOOTH=${2}
 WIFI=${3}
 
-ADD_SOUND="http://localhost:3000/add/sound"
-ADD_BLUETOOTH="http://localhost:3000/add/bluetooth"
-ADD_WIFI="http://localhost:3000/add/wifi"
+ADD_SOUND="http://150.214.214.19:3000/add/sound"
+ADD_BLUETOOTH="http://150.214.214.19:3000/add/bluetooth"
+ADD_WIFI="http://150.214.214.19:3000/add/wifi"
 
 # Add sound
 echo "Uploading sound data ..."

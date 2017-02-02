@@ -23,6 +23,13 @@ router.post('/add/sound/', function(req, res) {
    res.status(200);
    res.end();
 
+   console.log(
+      "insert into sound (sensor_id, noise, peak, date_time) values (" +
+      req.body.sensor_id + "," +
+      req.body.noise + "," +
+      req.body.peak + ",'" +
+      "'" + req.body.date_time + "')");
+
    if (connection) {
       connection.query(
          "insert into sound (sensor_id, noise, peak, date_time) values (" +
