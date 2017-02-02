@@ -23,19 +23,12 @@ router.post('/add/sound/', function(req, res) {
    res.status(200);
    res.end();
 
-   console.log(
-      "insert into sound (sensor_id, noise, peak, date_time) values (" +
-      req.body.sensor_id + "," +
-      req.body.noise + "," +
-      req.body.peak + ",'" +
-      "'" + req.body.date_time + "')");
-
    if (connection) {
       connection.query(
          "insert into sound (sensor_id, noise, peak, date_time) values (" +
          req.body.sensor_id + "," +
          req.body.noise + "," +
-         req.body.peak + ",'" +
+         req.body.peak + "," +
          "'" + req.body.date_time + "')",
          function(
             error, result) {
@@ -57,7 +50,7 @@ router.post('/add/wifi/', function(req, res) {
          "insert into wifi (sensor_id, mac_address, first_time, last_time) values (" +
          req.body.sensor_id + "," +
          "'" + req.body.mac_address + "'," +
-         "'" + req.body.first_time + "','" +
+         "'" + req.body.first_time + "'," +
          "'" + req.body.last_time + "')",
          function(
             error, result) {
