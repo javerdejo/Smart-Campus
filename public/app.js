@@ -25,7 +25,11 @@ router.post('/add/sound/', function(req, res) {
 
    if (connection) {
       connection.query(
-         `insert into sound (sensor_id, noise, peak, date_time) values (${req.body.sensor_id},${req.body.noise},${req.body.peak},'${req.body.date_time}')`,
+         "insert into sound (sensor_id, noise, peak, date_time) values (" +
+         req.body.sensor_id + "," +
+         req.body.noise + "," +
+         req.body.peak + ",'" +
+         "'" + req.body.date_time + "')",
          function(
             error, result) {
             if (error) {
@@ -43,7 +47,11 @@ router.post('/add/wifi/', function(req, res) {
 
    if (connection) {
       connection.query(
-         `insert into wifi (sensor_id, mac_address, first_time, last_time) values (${req.body.sensor_id},'${req.body.mac_address}','${req.body.first_time}','${req.body.last_time}')`,
+         "insert into wifi (sensor_id, mac_address, first_time, last_time) values (" +
+         req.body.sensor_id + "," +
+         "'" + req.body.mac_address + "'," +
+         "'" + req.body.first_time + "','" +
+         "'" + req.body.last_time + "')",
          function(
             error, result) {
             if (error) {
@@ -61,7 +69,11 @@ router.post('/add/bluetooth/', function(req, res) {
 
    if (connection) {
       connection.query(
-         `insert into bluetooth (sensor_id, mac_address, duration, date_time) values (${req.body.sensor_id},'${req.body.mac_address}',${req.body.duration},'${req.body.date_time}')`,
+         "insert into bluetooth (sensor_id, mac_address, duration, date_time) values (" +
+         req.body.sensor_id + "," +
+         "'" + req.body.mac_address + "'," +
+         req.body.duration + "," +
+         "'" + req.body.date_time + "')",
          function(
             error, result) {
             if (error) {
