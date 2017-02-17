@@ -9,7 +9,8 @@ wifi request: {
    "sensor_id": "1",
    "mac_address": "34:62:88:0F:F6:40",
    "first_time": "1970-01-01 01:22:57",
-   "last_time": "1970-01-01 01:42:26"
+   "last_time": "1970-01-01 01:42:26",
+   "power":"-123.4"
 }
 
 sound request: {
@@ -35,10 +36,10 @@ curl -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"201","noise":
 CURL Request
 for wifi add:
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"1","mac_address":"34:62:88:0F:F6:40","first_time":"1970-01-01 01:22:57","last_time":"1970-01-01 01:42:26"}' http://localhost:3000/add/wifi
+curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"1","mac_address":"34:62:88:0F:F6:40","first_time":"1970-01-01 01:22:57","last_time":"1970-01-01 01:42:26","power":"-123.4"}' http://localhost:3000/add/wifi
 
 CURL Request
-for wifi add:
+for bluetooth add:
 
 curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"100","mac_address":"00:03:19:00:F6:BE","duration":"10","date_time":"1970-01-01 00:00:56"}' http://localhost:3000/add/bluetooth
 
