@@ -24,3 +24,12 @@ create table sound (
    date_time datetime not null,
    primary key (id)
 );
+
+create table status (
+   id int not null auto_increment,
+   sensor_id int not null,
+   date_time datetime not null,
+   ip char(15) not null,
+   event int default 0,
+   primary key (id) 
+);
