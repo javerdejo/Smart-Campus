@@ -13,6 +13,7 @@ create table wifi (
    mac_address char(17) not null,
    first_time datetime not null,
    last_time datetime not null,
+   power float not null,
    primary key (id)
 );
 
@@ -31,5 +32,5 @@ create table status (
    date_time datetime not null,
    ip char(15) not null,
    event int default 0,
-   primary key (id) 
+   primary key (id)
 );

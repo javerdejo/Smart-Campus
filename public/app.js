@@ -47,11 +47,12 @@ router.post('/add/wifi/', function(req, res) {
 
    if (connection) {
       connection.query(
-         "insert into wifi (sensor_id, mac_address, first_time, last_time) values (" +
+         "insert into wifi (sensor_id, mac_address, first_time, last_time, power) values (" +
          req.body.sensor_id + "," +
          "'" + req.body.mac_address + "'," +
          "'" + req.body.first_time + "'," +
-         "'" + req.body.last_time + "')",
+         "'" + req.body.last_time + "'," +
+         req.body.power + ")",
          function(
             error, result) {
             if (error) {
