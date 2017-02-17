@@ -6,8 +6,8 @@ var express = require("express"),
 var mysql = require('mysql'),
    connection = mysql.createConnection({
       host: 'localhost',
-      user: 'umacamp',
-      password: 'q1w2e3r4',
+      user: 'root',
+      password: 'patolucas',
       database: 'umacamp'
    });
 
@@ -80,6 +80,28 @@ router.post('/add/bluetooth/', function(req, res) {
                throw error;
             } else {
                //console.log("- bluetooth data added on " + Date());
+            }
+         });
+   }
+});
+
+router.post('/add/status/', function(req, res) {
+   res.status(200);
+   res.end();
+
+   if (connection) {
+      connection.query(
+         "insert into status (sensor_id, date_time, ip, event) values (" +
+         req.body.sensor_id + "," +
+         "'" + req.body.date_time + "'," +
+         "'" + req.body.ip + "'," +
+         req.body.event + ")",
+         function(
+            error, result) {
+            if (error) {
+               throw error;
+            } else {
+               //console.log("- event data added on " + Date());
             }
          });
    }
