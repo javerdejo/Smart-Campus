@@ -28,7 +28,7 @@ event request: {
 }
 
 
-CURL Request
+CURL Request for HTTP protocol
 for sound add:
 
 curl -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"201","noise":"76.0","peak":"79.8","date_time":"1970-01-01 01:42:26"}' http://localhost:3000/add/sound
@@ -47,3 +47,11 @@ CURL Request
 for status add:
 
 curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"100","date_time":"1970-01-01 01:42:26","ip":"192.168.1.1","event":"0"}' http://localhost:3000/add/status
+
+
+CURL Request for HTTPS protocol
+
+CURL Request
+for status add:
+
+curl --cacert ca.crt -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"999","date_time":"1970-01-01 01:42:26","ip":"192.168.1.1","event":"0"}' https://localhost:3000/add/status

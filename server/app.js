@@ -2,8 +2,9 @@ var express = require("express"),
    app = express(),
    bodyParser = require("body-parser"),
    methodOverride = require("method-override"),
-   http = require('http');
-
+   https = require('https'),
+   fs = require('fs'),
+   path = require('path');
 
 var mysql = require('mysql'),
    connection = mysql.createConnection({
@@ -112,8 +113,12 @@ router.post('/add/status/', function(req, res) {
 
 app.use(router);
 
-//app.listen(3000, function() {
-//   console.log("Node UMACamp server running on http://localhost:3000");
-//});
+const httpsOptions = {
+   cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
+   key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key'))
+}
 
-http.createServer(app).listen(3000);
+https.createServer(httpsOptions, app)
+   .listen(3000, function() {
+      console.log('Running umacamp secure server on https://localhost:3000')
+   })
