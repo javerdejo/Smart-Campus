@@ -1,13 +1,15 @@
 var express = require("express"),
    app = express(),
    bodyParser = require("body-parser"),
-   methodOverride = require("method-override");
+   methodOverride = require("method-override"),
+   http = require('http');
+
 
 var mysql = require('mysql'),
    connection = mysql.createConnection({
       host: 'localhost',
-      user: 'umacamp',
-      password: 'q1w2e3r4',
+      user: 'root',
+      password: 'patolucas',
       database: 'umacamp'
    });
 
@@ -110,6 +112,8 @@ router.post('/add/status/', function(req, res) {
 
 app.use(router);
 
-app.listen(3000, function() {
-   console.log("Node UMACamp server running on http://localhost:3000");
-});
+//app.listen(3000, function() {
+//   console.log("Node UMACamp server running on http://localhost:3000");
+//});
+
+http.createServer(app).listen(3000);
