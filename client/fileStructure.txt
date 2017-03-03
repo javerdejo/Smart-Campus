@@ -1,0 +1,14 @@
+* Files to be send to the server: /sensorBackup/to_send
+  + WiFi data: wifiSensed_XXXXX.csv
+  + BT data: registerbt_XXX.log
+
+* Folder that stores historic data: /sensorBackup/pending
+  + WiFi data: /senor_client/sensorBackup/historic/wifi_sensed/XXX.csv
+  + BT data: /senor_client/sensorBackup/historic/bt_sensed/XXX.log
+
+* Folder that stores client bin files
+  + /senor_client/bin
+  + Include link to /usr/local/bin/SensingStation/sensors/config/global_settings.py as /senor_client/bin/global_settings.py
+
+
+* HACER COPIA DE SEGURIDAD DE LO QUE HAY EN LA RASPBERRY PI
