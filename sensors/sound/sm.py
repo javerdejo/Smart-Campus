@@ -5,10 +5,11 @@
 import usb.core
 import usb.util
 import signal
+import math
 import time
 import sys
 
-from settings import (VERBOSE, INTERVAL, LOGPATH, FLOGGING, DATAHTML)
+from settings import (VERBOSE, INTERVAL, LOGPATH, FLOGGING, DATAHTML, LAEQ)
 from global_settings import (STATION_ID)
 
 class SoundMeterGM1356(object):
@@ -53,6 +54,7 @@ class SoundMeterGM1356(object):
 	def start(self):
 		self._running = True
 		peak = 0
+		low = 999
 
 		if self.device.is_kernel_driver_active(0):
 			try:
@@ -64,56 +66,91 @@ class SoundMeterGM1356(object):
 
 		try:
 			self.printlog("Taking measurements of sound ...")
+
+			start_time = time.time()
+			cur_time = time.time()
+			laeq = 0
+			ti = 1
+			read_count = 0
+
 			while self._running:
-				try:
-					data = "b3 00 00 00 00 00 00 00"
-					buf = data.replace(" ", "").decode('hex')
-					self.device.write(0x02, buf, 1000)
-					ret = self.device.read(0x81, 8, 1000)
-					values = bytearray(ret)
-				except usb.core.USBError:
-					continue
 
-				if len(values) == 8:
-					measure = (256*values[0] + values[1]) / 10.0
+				if cur_time - start_time < LAEQ:
+					try:
+						data = "b3 00 00 00 00 00 00 00"
+						buf = data.replace(" ", "").decode('hex')
+						self.device.write(0x02, buf, 1000)
+						ret = self.device.read(0x81, 8, 1000)
+						values = bytearray(ret)
+					except usb.core.USBError:
+						continue
 
-					if measure > 130 or measure < 0:
-						measure = 0
+					if len(values) == 8:
+						measure = (256*values[0] + values[1]) / 10.0
 
-					strTime = time.strftime("%H:%M:%S")
-					strDate = time.strftime("%Y-%m-%d")
+						if measure > 130 or measure < 0:
+							measure = 0
 
-					if measure > peak:
-						peak = measure
+						if measure > peak:
+							peak = measure
 
-					if (values[2] >> 6) == 1:
-						strSpeed = "Fast"
-					else:
-						strSpeed = "Slow"
+						if measure < low:
+							low = measure
 
-					if (values[2] >> 4 & 0x01) == 0:
-						strCurve = "A"
-					else:
-						strCurve = "C"
+						laeq = laeq + (math.pow(10, (measure/10)) * INTERVAL)
+						read_count = read_count + 1
 
-					range_cfg = values[2] & 0x07
+					cur_time = time.time()
+				else:
+					laeq = 10 * math.log10(laeq/read_count);
+					self.save_data(laeq, peak, low)
+					read_count = 0
+					laeq = 0
+					ti = 1
 
-					strDataLog = "%s,%s %s,%2.1f,%2.1f,%s,%s,%d\n" % (STATION_ID,strDate, strTime, measure, peak, strSpeed, strCurve, range_cfg)
-					self.fileLog.write(strDataLog)
-					self.fileLog.flush()
-
-					strDataHtml = "%2.1f %2.1f\n" % (measure, peak)
-					self.datahtml.seek(0)
-					self.datahtml.write(strDataHtml)
-					self.datahtml.flush()
-
-					if VERBOSE == 1:
-						self.printlog("%s %s %s %2.1f db Max: %2.1f db %s %s %d" % (strDate, strTime, STATION_ID, measure, peak, strSpeed, strCurve, range_cfg))
-
+					start_time = cur_time
 					time.sleep(self.PAUSE)
+
 			self.stop()
 		except self.__class__.StopException:
 			self.stop()
+
+	def save_data(self, laeq, peak, low):
+		try:
+			data = "b3 00 00 00 00 00 00 00"
+			buf = data.replace(" ", "").decode('hex')
+			self.device.write(0x02, buf, 1000)
+			ret = self.device.read(0x81, 8, 1000)
+			values = bytearray(ret)
+		except usb.core.USBError:
+			pass
+
+		strTime = time.strftime("%H:%M:%S")
+		strDate = time.strftime("%Y-%m-%d")
+
+		if (values[2] >> 6) == 1:
+			strSpeed = "Fast"
+		else:
+			strSpeed = "Slow"
+
+		if (values[2] >> 4 & 0x01) == 0:
+			strCurve = "A"
+		else:
+			strCurve = "C"
+
+		range_cfg = values[2] & 0x07
+		strDataLog = "%s,%s %s,%2.1f,%2.1f,%2.1f,%s,%s,%d\n" % (STATION_ID,strDate, strTime, laeq, low, peak, strSpeed, strCurve, range_cfg)
+
+		self.fileLog.write(strDataLog)
+		self.fileLog.flush()
+
+		strDataHtml = "%2.1f %2.1f\n" % (laeq, peak)
+		self.datahtml.seek(0)
+		self.datahtml.write(strDataHtml)
+		self.datahtml.flush()
+
+		if VERBOSE == 1:
+			self.printlog("%s %s %s %2.1f db Max: %2.1f db %s %s %d" % (strDate, strTime, STATION_ID, laeq, peak, strSpeed, strCurve, range_cfg))
 
 	def stop(self):
 		self.printlog('Stopping')

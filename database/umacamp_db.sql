@@ -22,6 +22,7 @@ create table sound (
    sensor_id int not null,
    noise float not null,
    peak float not null,
+   low float not null,
    date_time datetime not null,
    primary key (id)
 );

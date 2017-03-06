@@ -25,10 +25,11 @@ router.post('/add/sound/', function(req, res) {
 
    if (connection) {
       connection.query(
-         "insert into sound (sensor_id, noise, peak, date_time) values (" +
+         "insert into sound (sensor_id, noise, peak, low, date_time) values (" +
          req.body.sensor_id + "," +
          req.body.noise + "," +
          req.body.peak + "," +
+         req.body.low + "," +
          "'" + req.body.date_time + "')",
          function(
             error, result) {
