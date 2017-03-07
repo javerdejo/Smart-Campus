@@ -33,5 +33,9 @@ create table status (
    date_time datetime not null,
    ip char(15) not null,
    event int default 0,
+   sound_records int not null default 0,
+   bt_records int not null default 0,
+   wifi_records int not null default 0,
+   message varchar(255) default 'ok',
    primary key (id)
 );

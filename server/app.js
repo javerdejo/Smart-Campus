@@ -93,10 +93,14 @@ router.post('/add/status/', function(req, res) {
 
    if (connection) {
       connection.query(
-         "insert into status (sensor_id, date_time, ip, event) values (" +
+         "insert into status (sensor_id, date_time, ip, sound_records, bt_records, wifi_records, message,  event) values (" +
          req.body.sensor_id + "," +
          "'" + req.body.date_time + "'," +
          "'" + req.body.ip + "'," +
+         req.body.sound_records + "," +
+         req.body.bt_records + "," +
+         req.body.wifi_records + "," +
+         "'" + req.body.message + "'," +
          req.body.event + ")",
          function(
             error, result) {
