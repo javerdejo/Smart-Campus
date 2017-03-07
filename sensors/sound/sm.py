@@ -44,7 +44,7 @@ class SoundMeterGM1356(object):
 
 		self.FILELOG = LOGPATH + "/registersound_" + strDate + "_" + strTime + ".log"
 		self.fileLog = open(self.FILELOG,'w')
-		self.fileLog.write("Sensor ID, Date Time,Measure,Max,Speed,Curve,Range\n")
+		self.fileLog.write("Sensor ID, Date Time,Measure,Low,Max,Speed,Curve,Range\n")
 
 		if INTERVAL < 0.5:
 			self.PAUSE = 1
@@ -95,7 +95,8 @@ class SoundMeterGM1356(object):
 							peak = measure
 
 						if measure < low:
-							low = measure
+							if measure != 0:
+								low = measure
 
 						laeq = laeq + (math.pow(10, (measure/10)) * INTERVAL)
 						read_count = read_count + 1
@@ -107,6 +108,8 @@ class SoundMeterGM1356(object):
 					read_count = 0
 					laeq = 0
 					ti = 1
+					peak = 0
+					low = 999
 
 					start_time = cur_time
 					time.sleep(self.PAUSE)
