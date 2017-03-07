@@ -67,19 +67,29 @@ def sendData(url, data):
         writeLog(e)
     return sent
 
-def sendStatus(ip,event):
+def sendStatus(ip,event,sound_records, bt_records,wifi_records,message):
     current_time = time.strftime("%Y-%m-%d_%H:%M:%S");
     data ={'sensor_id':STATION_ID,
            'ip':ip,
            'event':event,
+           'sound_records':sound_records,
+           'bt_records':bt_records,
+           'wifi_records':wifi_records,
+           'message':message,
            'date_time':current_time}
     ok = sendData(ADD_STATUS, data)
+    message = 'Sound: ' + str(sound_records)
+    writeLog(message)
+
 
 
 def main(argv):
     soundFile = ''
     bluetoothFile = ''
     wifiFile = ''
+    sound_records = 0
+    bt_records = 0
+    wifi_records = 0
 
     try:
         opts, args = getopt.getopt(argv,"hb:s:w:",[])
@@ -103,11 +113,11 @@ def main(argv):
 
     #First the ip is renewed in order to limit connection problems
     sensorIp = renewIp()
-    message = 'Senosor IP address: ' + str(sensorIp)
+    message = 'Connection OK! Senosor IP address: ' + str(sensorIp)
     writeLog(message)
 
-    event = 1
-    sendStatus(sensorIp,event)
+    event = 0
+    sendStatus(sensorIp,event,sound_records, bt_records,wifi_records,message)
 
     if (soundFile !=''):
         writeLog('Sending SOUND data....')
@@ -127,11 +137,13 @@ def main(argv):
 
                         sensorId = row[0];
                         noise = row[2];
-                        peak = row[3];
+                        peak = row[4];
                         dateTime = row[1];
+                        low = row[3];
 
                         data ={'sensor_id':STATION_ID,
                                'noise':noise,
+                               'low': low,
                                'peak':peak,
                                'date_time':dateTime}
 
@@ -146,6 +158,8 @@ def main(argv):
 
         message = 'Correctly sent: ' + str(rowOk) + ', Failed: ' + str(rowError)
         writeLog(message)
+        sound_records = rowOk
+
 
     if (bluetoothFile !=''):
         rowOk = 0;
@@ -183,6 +197,8 @@ def main(argv):
 
         message = 'Correctly sent: ' + str(rowOk) + ', Failed: ' + str(rowError)
         writeLog(message)
+        bt_records = rowOk
+
 
     if (wifiFile !=''):
         rowOk = 0;
@@ -221,6 +237,10 @@ def main(argv):
                     pass
         message = 'Correctly sent: ' + str(rowOk) + ', Failed: ' + str(rowError)
         writeLog(message)
+        wifi_records = rowOk
+        message = 'End of transference'
+        sendStatus(sensorIp,event,sound_records, bt_records,wifi_records,message)
+
 
 if __name__ == "__main__":
    main(sys.argv[1:])
