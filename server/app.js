@@ -122,18 +122,16 @@ router.post('/add/sensor/', function(req, res) {
    d = new Date();
    date_time_server = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() +
       " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-   console.log("Date: " + date_time_server);
-
 
    if (connection) {
       connection.query(
-         "insert into sensors (sensor_id, ip, date_time_sensor, date_time_server, status, message) values (" +
-         req.body.sensor_id + "," +
-         "'" + req.body.ip + "'," +
-         "'" + req.body.date_time_sensor + "'," +
-         "'" + date_time_server + "'," +
-         req.body.status + "," +
-         "'" + req.body.message + "')",
+         "update sensors set " +
+         "ip = '" + req.body.ip + "'," +
+         "date_time_sensor = '" + req.body.date_time_sensor + "'," +
+         "date_time_server = '" + date_time_server + "'," +
+         "status = " + req.body.status + "," +
+         "message = '" + req.body.message + "'",
+         "where sensor_id = " + req.body.sensor_id,
          function(
             error, result) {
             if (error) {
