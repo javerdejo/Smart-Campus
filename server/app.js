@@ -130,7 +130,7 @@ router.post('/add/sensor/', function(req, res) {
          "date_time_sensor = '" + req.body.date_time_sensor + "'," +
          "date_time_server = '" + date_time_server + "'," +
          "status = " + req.body.status + "," +
-         "message = '" + req.body.message + "'",
+         "message = '" + req.body.message + "'" +
          "where sensor_id = " + req.body.sensor_id,
          function(
             error, result) {
