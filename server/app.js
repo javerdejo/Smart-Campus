@@ -11,6 +11,8 @@ var mysql = require('mysql'),
       database: 'umacamp'
    });
 
+var datetime = require('node-datetime');
+
 app.use(bodyParser.urlencoded({
    extended: false
 }));
@@ -102,6 +104,36 @@ router.post('/add/status/', function(req, res) {
          req.body.wifi_records + "," +
          "'" + req.body.message + "'," +
          req.body.event + ")",
+         function(
+            error, result) {
+            if (error) {
+               throw error;
+            } else {
+               //console.log("- event data added on " + Date());
+            }
+         });
+   }
+});
+
+router.post('/add/sensor/', function(req, res) {
+   res.status(200);
+   res.end();
+
+   d = new Date();
+   date_time_server = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() +
+      " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+   console.log("Date: " + date_time_server);
+
+
+   if (connection) {
+      connection.query(
+         "insert into sensors (sensor_id, ip, date_time_sensor, date_time_server, status, message) values (" +
+         req.body.sensor_id + "," +
+         "'" + req.body.ip + "'," +
+         "'" + req.body.date_time_sensor + "'," +
+         "'" + date_time_server + "'," +
+         req.body.status + "," +
+         "'" + req.body.message + "')",
          function(
             error, result) {
             if (error) {

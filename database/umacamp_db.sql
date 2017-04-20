@@ -39,3 +39,13 @@ create table status (
    message varchar(255) default 'ok',
    primary key (id)
 );
+
+create table sensors (
+   sensor_id int not null,
+   ip char(15) not null,
+   date_time_sensor datetime not null,
+   date_time_server datetime not null,
+   status int default 0,
+   message varchar(255) default 'ok',
+   primary key (sensor_id)
+);

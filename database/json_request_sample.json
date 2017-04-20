@@ -32,6 +32,14 @@ event request: {
    "event": "0"
 }
 
+event request: {
+   "sensor_id": "1",
+   "ip": "192.168.1.1",
+   "date_time_sensor": "1970-01-01 01:42:26",
+   "status":"1",
+   "message":"All ok"
+}
+
 
 CURL Request
 for sound add:
@@ -52,3 +60,17 @@ CURL Request
 for status add:
 
 curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"100","date_time":"1970-01-01 01:42:26","ip":"192.168.1.1","sound_records":"100","bt_records":"200","wifi_records":"300","message":"All ok","event":"0"}' http://localhost:3000/add/status
+
+
+event request: {
+   "sensor_id": "1",
+   "ip": "192.168.1.1",
+   "date_time_sensor": "1970-01-01 01:42:26",
+   "status":"1",
+   "message":"All ok"
+}
+
+CURL Request
+for sensors
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"sensor_id":"1", "ip": "192.168.1.1", "date_time_sensor": "1970-01-01 01:42:26", "status":"1", "message":"All ok"}' http://localhost:3000/add/sensor
