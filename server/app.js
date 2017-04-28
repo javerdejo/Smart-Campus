@@ -120,7 +120,10 @@ router.post('/add/sensor/', function(req, res) {
    res.end();
 
    d = new Date();
-   date_time_server = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() +
+
+   month = d.getMonth() + 1
+
+   date_time_server = d.getFullYear() + "-" + month + "-" + d.getDate() +
       " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
 
    if (connection) {
