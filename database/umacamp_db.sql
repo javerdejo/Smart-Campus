@@ -49,3 +49,6 @@ create table sensors (
    message varchar(255) default 'ok',
    primary key (sensor_id)
 );
+
+CREATE EVENT update_sensors_status ON SCHEDULE EVERY 5 MINUTE STARTS now() DO
+update sensors set message = 'off' where date_time_server < DATE_SUB(now(), INTERVAL 10 MINUTE);
