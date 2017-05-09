@@ -4,7 +4,10 @@
   "description": "",
   "main": "umacamp.js",
   "scripts": {
-    "start": "pm2 start server/umacamp.js"
+    "start": "pm2 start server/umacamp.js",
+    "stop": "pm2 stop umacamp",
+    "status": "pm2 info umacamp",
+    "delete": "pm2 delete umacamp" 
   },
   "keywords": [],
   "author": "NEO",
