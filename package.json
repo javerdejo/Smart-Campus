@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server/app.js"
+    "start": "pm2 start server/app.js"
   },
   "keywords": [],
   "author": "NEO",
