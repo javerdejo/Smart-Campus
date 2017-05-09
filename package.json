@@ -2,9 +2,9 @@
   "name": "SoundStation",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "umacamp.js",
   "scripts": {
-    "start": "pm2 start server/app.js"
+    "start": "pm2 start server/umacamp.js"
   },
   "keywords": [],
   "author": "NEO",
